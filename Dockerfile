@@ -14,7 +14,7 @@ RUN npm install
 COPY . .
 
 # Build the React app for production
-#RUN npm run build
+RUN npm run build
 
 # Serve the app using a simple static file server (e.g., serve)
 RUN npm install -g serve
