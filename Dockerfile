@@ -5,8 +5,7 @@ FROM node:18-alpine AS builder
 WORKDIR /app
 
 # Copy package files first (for caching)
-COPY package*.json ./
-
+COPY .vscode/src/package*.json ./
 # Install dependencies
 RUN npm install
 
