@@ -5,7 +5,7 @@ FROM node:18-alpine
 WORKDIR /app
 
 # Copy package.json and package-lock.json first to install dependencies
-COPY .vscode/src/package*.json ./
+COPY package*.json ./
 
 # Install dependencies
 RUN npm install
