@@ -1,26 +1,36 @@
-# Use an official Node.js runtime as a parent image
-FROM node:18-alpine
+# Stage 1: Build the React app
+FROM node:18-alpine AS builder
 
-# Set the working directory inside the container
+# Set working directory
 WORKDIR /app
 
-# Copy package.json and package-lock.json first to install dependencies
+# Copy package files first (for caching)
 COPY package*.json ./
 
 # Install dependencies
 RUN npm install
 
-# Copy the rest of the application
+# Copy the rest of the app
 COPY . .
 
-# Build the React app for production
-npm run build 
+# Build the app
+RUN npm run build
 
-# Serve the app using a simple static file server (e.g., serve)
+
+# Stage 2: Serve the app (lightweight)
+FROM node:18-alpine
+
+# Install serve globally
 RUN npm install -g serve
 
-# Expose port 3000 (the port that the React app will run on)
+# Set working directory
+WORKDIR /app
+
+# Copy only the build folder from builder stage
+COPY --from=builder /app/build ./build
+
+# Expose port
 EXPOSE 3000
 
-# Command to run the app using the static file server
+# Run the app
 CMD ["serve", "-s", "build", "-l", "3000"]
