@@ -8,13 +8,13 @@ WORKDIR /app
 COPY package*.json ./
 
 # Install dependencies
-RUN npm ci
+RUN npm install
 
 # Copy the rest of the application
 COPY . .
 
 # Build the React app for production
-RUN npm run build 
+RUN sudo npm run build 
 
 # Serve the app using a simple static file server (e.g., serve)
 RUN npm install -g serve
